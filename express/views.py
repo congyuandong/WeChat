@@ -10,15 +10,19 @@ import hashlib
 
 WECHAT_TOKEN = 'congyuandong2014'
 
-@csrf_exempt
+
 def index(request):
+	context = RequestContext(request)
+	context_dict = {}
+	return render_to_response('express/index.html',context_dict,context)
+
+@csrf_exempt
+def token(request):
     if request.method=='GET':
         response=HttpResponse(checkSignature(request))
         return response
     else:
         return HttpResponse('Hello World')
-
-
 
 def checkSignature(request):
     signature=request.GET.get('signature',None)
