@@ -6,17 +6,37 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 
 from models import *
+import requests
+from datetime import datetime
 
 import hashlib
 
-
-#WECHAT_TOKEN = 'congyuandong2014'
 
 
 def index(request):
 	context = RequestContext(request)
 	context_dict = {}
 	return render_to_response('express/index.html',context_dict,context)
+
+#获取access_token
+def getAccessToken():
+	wechat_objs = WeChatBase.objects.all()
+	if wechat_objs:
+		if (datetime.now()-wechat_objs[0].wc_time).seconds > wechat_objs[0].wc_expirs_in:
+			try:
+				response = requests.get('https://api.weixin.qq.com/cgi-bin/token', params={'grant_type':'client_credential','appid':wechat_objs[0].wc_appid,'secret':wechat_objs[0].wc_secret})
+				response.raise_for_status()
+			except requests.RequestException as e:
+				print (e)
+			else:
+				result = response.json()
+				print result,type(result)
+				wechat_objs[0].wc_time = datetime.now()
+				wechat_objs[0].wc_access_token = result['access_token']
+				wechat_objs[0].wc_expirs_in = result['expires_in']
+				wechat_objs[0].save()
+	wechat_objs = WeChatBase.objects.all()
+	return	wechat_objs[0].wc_access_token
 
 @csrf_exempt
 def token(request):
