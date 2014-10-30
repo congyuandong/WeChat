@@ -5,10 +5,12 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 
+from models import *
+
 import hashlib
 
 
-WECHAT_TOKEN = 'congyuandong2014'
+#WECHAT_TOKEN = 'congyuandong2014'
 
 
 def index(request):
@@ -29,14 +31,17 @@ def checkSignature(request):
     timestamp=request.GET.get('timestamp',None)
     nonce=request.GET.get('nonce',None)
     echostr=request.GET.get('echostr',None)
-    #这里的token我放在setting，可以根据自己需求修改
-    token=WECHAT_TOKEN
 
-    tmplist=[token,timestamp,nonce]
-    tmplist.sort()
-    tmpstr="%s%s%s"%tuple(tmplist)
-    tmpstr=hashlib.sha1(tmpstr).hexdigest()
-    if tmpstr==signature:
-        return echostr
-    else:
-        return None
+    wechat_objs = WeChatBase.objects.all()
+    if wechat_objs:
+    	token=WECHAT_TOKEN
+
+	    tmplist=[token,timestamp,nonce]
+	    tmplist.sort()
+	    tmpstr="%s%s%s"%tuple(tmplist)
+	    tmpstr=hashlib.sha1(tmpstr).hexdigest()
+	    if tmpstr==signature:
+	        return echostr
+	    else:
+	        return None
+	return None
