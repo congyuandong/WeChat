@@ -34,7 +34,7 @@ def checkSignature(request):
 
     wechat_objs = WeChatBase.objects.all()
     if wechat_objs:
-    	token=WECHAT_TOKEN
+    	token=wechat_objs[0].wc_token
 
 	    tmplist=[token,timestamp,nonce]
 	    tmplist.sort()
