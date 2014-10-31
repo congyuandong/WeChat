@@ -32,7 +32,6 @@ MESSAGE_TEXT_PICTURE = """
     <item>
     <Title><![CDATA[%s]]></Title>
     <Description><![CDATA[%s]]></Description>
-    <PicUrl><![CDATA[%s]]></PicUrl>
     <Url><![CDATA[%s]]></Url>
     </item>
     </Articles>
@@ -143,8 +142,7 @@ def code_handler(request,code):
 
 def url_response(to_user_name, from_user_name,title,desc,url):
 	post_time = str(int(time.time()))
-	picUrl = 'http://www.baidu.com/img/bdlogo.png'
-	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,picUrl,url))
+	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,url))
 
 
 def checkSignature(request):
