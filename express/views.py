@@ -79,10 +79,9 @@ def event_receiver(request):
 
 def click_handler(request,key):
 	xml = ElementTree.fromstring(request.body)
-	
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
-	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="put code here")
+	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="请点击键盘图标,直接输入单号即可!")
 
 
 def message_receiver(request):
