@@ -76,6 +76,17 @@ def event_receiver(request):
 		key = xml.find("EventKey").text
 		#return wss_tools.message_handler(request,key)
 		return click_handler(request,key)
+	elif event == "scancode_push":
+		key = xml.find("EventKey").text
+		return scan_handler(request,key)
+
+#扫码事件
+def scan_handler(request,key):
+	xml = ElementTree.fromstring(request.body)
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	scanResult = xml.find("ScanCodeInfo").find("ScanResult").text
+	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=scanResult)
 
 def click_handler(request,key):
 	xml = ElementTree.fromstring(request.body)
