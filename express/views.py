@@ -21,6 +21,16 @@ REPLAY_TEXT = """<xml>
     <Content><![CDATA[%s]]></Content>
     </xml>"""
 
+MESSAGE_HYPER_LINK = """<xml>
+    <ToUserName><![CDATA[%s]]></ToUserName>
+    <FromUserName><![CDATA[%s]]></FromUserName>
+    <CreateTime>%s</CreateTime>
+    <MsgType><![CDATA[link]]></MsgType>
+    <Title><![CDATA[%s]]></Title>
+    <Description><![CDATA[%s]]></Description>
+    <Url><![CDATA[%s]]></Url>
+    </xml> """
+
 def index(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -80,25 +90,27 @@ def event_receiver(request):
 		key = xml.find("EventKey").text
 		return scan_handler(request,key)
 
-#扫码事件
-def scan_handler(request,key):
-	xml = ElementTree.fromstring(request.body)
-	toUserName = xml.find("ToUserName").text
-	fromUserName = xml.find("FromUserName").text
-	scanResult = xml.find("ScanCodeInfo").find("ScanResult").text
-	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=scanResult)
-
 def click_handler(request,key):
 	xml = ElementTree.fromstring(request.body)
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
 	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="请点击键盘图标;\n直接输入单号即可!")
 
+#扫码事件
+def scan_handler(request,key):
+	xml = ElementTree.fromstring(request.body)
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	scanResult = xml.find("ScanCodeInfo").find("ScanResult").text
+	#return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=scanResult)
+	return code_handler(request,scanResult)
 
+#输入快递单号
 def message_receiver(request):
 	xml = ElementTree.fromstring(request.body)
 	content = xml.find("Content").text.encode('utf-8')
-	return message_handler(request, content)
+	#return message_handler(request, content)
+	return code_handler(request,content)
 
 def message_handler(request,content):
 	xml = ElementTree.fromstring(request.body)
@@ -110,6 +122,21 @@ def message_handler(request,content):
 def text_response(to_user_name, from_user_name, text):
 	post_time = str(int(time.time()))
 	return HttpResponse(REPLAY_TEXT % (to_user_name, from_user_name, post_time, text))
+
+#返回订单URL
+def code_handler(request,code):
+	xml = ElementTree.fromstring(request.body)
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'yunda','nu':code})
+	url = url.content
+	title = "订单号    "+code
+	return url_response(toUserName, fromUserName,title,"点击查看最新物流信息",url)
+
+def url_response(to_user_name, from_user_name,title,desc,url):
+	post_time = str(int(time.time()))
+	return HttpResponse(MESSAGE_HYPER_LINK % (to_user_name, from_user_name,post_time,title,desc,url))
+
 
 def checkSignature(request):
 	signature=request.GET.get('signature',None)

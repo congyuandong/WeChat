@@ -40,6 +40,11 @@ def setMenu():
 	response = requests.post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+getAccessToken(),data=data)
 	print response.json()
 
+def testExpress():
+	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'yunda','nu':'1000306901518'})
+	print url.content
+
 if __name__ == '__main__':
-	setMenu()
+	#setMenu()
+	testExpress()
 
