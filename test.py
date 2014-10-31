@@ -32,7 +32,7 @@ def getAccessToken():
 
 def setMenu():
 	data = '''{"button":[
-				{"type": "scancode_push","name":"扫码查询","key":"scan"},
+				{"type": "scancode_waitmsg","name":"扫码查询","key":"scan"},
 				{"type": "click","name":"单号查询","key":"code"},
 				{"type": "view","name":"关于我们","url":"http://www.congyuandong.cn"}
 					]

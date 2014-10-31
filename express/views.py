@@ -76,7 +76,7 @@ def event_receiver(request):
 		key = xml.find("EventKey").text
 		#return wss_tools.message_handler(request,key)
 		return click_handler(request,key)
-	elif event == "scancode_push":
+	elif event == "scancode_waitmsg":
 		key = xml.find("EventKey").text
 		return scan_handler(request,key)
 
