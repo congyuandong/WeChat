@@ -21,8 +21,7 @@ REPLAY_TEXT = """<xml>
     <Content><![CDATA[%s]]></Content>
     </xml>"""
 
-MESSAGE_TEXT_PICTURE = """
-    <xml>
+MESSAGE_TEXT_PICTURE = """<xml>
     <ToUserName><![CDATA[%s]]></ToUserName>
     <FromUserName><![CDATA[%s]]></FromUserName>
     <CreateTime>%s</CreateTime>
@@ -32,11 +31,11 @@ MESSAGE_TEXT_PICTURE = """
     <item>
     <Title><![CDATA[%s]]></Title>
     <Description><![CDATA[%s]]></Description>
+    <PicUrl><![CDATA[%s]]></PicUrl>
     <Url><![CDATA[%s]]></Url>
     </item>
     </Articles>
-    </xml>
-"""
+    </xml>"""
 
 def index(request):
 	context = RequestContext(request)
@@ -142,7 +141,8 @@ def code_handler(request,code):
 
 def url_response(to_user_name, from_user_name,title,desc,url):
 	post_time = str(int(time.time()))
-	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,url))
+	picUrl = 'http://www.baidu.com/img/bdlogo.png'
+	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,picUrl,url))
 
 
 def checkSignature(request):
