@@ -8,10 +8,19 @@ from django.views.decorators.csrf import csrf_exempt
 from models import *
 import requests
 from datetime import datetime
+import time
+from xml.etree import ElementTree
 
 import hashlib
 
-
+REPLAY_TEXT = """<xml>
+    <ToUserName><![CDATA[%s]]></ToUserName>
+    <FromUserName><![CDATA[%s]]></FromUserName>
+    <CreateTime>%s</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[%s]]></Content>
+    <FuncFlag>0</FuncFlag>
+    </xml>"""
 
 def index(request):
 	context = RequestContext(request)
@@ -44,8 +53,47 @@ def token(request):
 		response=HttpResponse(checkSignature(request))
 		return response
 	else:
-		print request.POST
-		return HttpResponse('Hello World')
+		return doPost(request)
+
+def doPost(request):
+	xml = ElementTree.fromstring(request.body)
+	message_type = xml.find("MsgType").text
+	print message_type
+	if message_type == 'event':
+		return event_receiver(request)
+	elif message_type == 'text':
+		return message_receiver(request)
+	else:
+		print("无效请求，MsgType：" + message_type)
+		return HttpResponse("invalid request")
+
+def event_receiver(request):
+	xml = ElementTree.fromstring(request.body)
+	server_id = xml.find("ToUserName").text
+	user_open_id = xml.find("FromUserName").text
+	event = xml.find("Event").text
+	print("接收到事件："+event)
+	if event == "CLICK":
+		key = xml.find("EventKey").text
+		#return wss_tools.message_handler(request,key)
+		return HttpResponse("CLICK")
+
+def message_receiver(request):
+	xml = ElementTree.fromstring(request.body)
+	content = xml.find("Content").text
+	return message_handler(request, content)
+
+def message_handler(request,content):
+	xml = ElementTree.fromstring(request.body)
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=content)
+
+# 回复文字
+def text_response(to_user_name, from_user_name, text):
+	print("get text response to %s:text = %s" % (to_user_name,text))
+	post_time = str(int(time.time()))
+	return HttpResponse(REPLAY_TEXT % (to_user_name, from_user_name, post_time, text))
 
 def checkSignature(request):
 	signature=request.GET.get('signature',None)
