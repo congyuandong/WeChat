@@ -44,7 +44,7 @@ def token(request):
 		response=HttpResponse(checkSignature(request))
 		return response
 	else:
-		return HttpResponse('Hello World')
+		print request.POST
 
 def checkSignature(request):
 	signature=request.GET.get('signature',None)
