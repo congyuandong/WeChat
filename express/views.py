@@ -137,9 +137,9 @@ def code_handler(request,code):
 	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'yunda','nu':code})
 	url = url.content
 	title = "订单号    "+code
-	return url_response(toUserName, fromUserName,title,"点击查看最新物流信息",url)
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc="点击查看最新物流信息",url=url)
 
-def url_response(to_user_name, from_user_name,title,desc,url):
+def url_response(from_user_name, to_user_name,title,desc,url):
 	post_time = str(int(time.time()))
 	picUrl = 'http://www.baidu.com/img/bdlogo.png'
 	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,picUrl,url))
