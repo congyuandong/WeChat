@@ -134,7 +134,7 @@ def code_handler(request,code):
 	xml = ElementTree.fromstring(request.body)
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
-	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'yunda','nu':code})
+	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'shunfeng','nu':code})
 	url = url.content
 	title = "订单号    "+code
 	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc="点击查看最新物流信息",url=url)
