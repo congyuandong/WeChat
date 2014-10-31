@@ -75,7 +75,15 @@ def event_receiver(request):
 	if event == "CLICK":
 		key = xml.find("EventKey").text
 		#return wss_tools.message_handler(request,key)
-		return HttpResponse("CLICK")
+		return click_handler(request,key)
+
+def click_handler(request,key):
+	xml = ElementTree.fromstring(request.body)
+	
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="put code here")
+
 
 def message_receiver(request):
 	xml = ElementTree.fromstring(request.body)
