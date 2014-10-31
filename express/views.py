@@ -97,7 +97,6 @@ def message_handler(request,content):
 
 # 回复文字
 def text_response(to_user_name, from_user_name, text):
-	#print("get text response to %s:text = %s" % (to_user_name,text.encode('utf-8')))
 	post_time = str(int(time.time()))
 	return HttpResponse(REPLAY_TEXT % (to_user_name, from_user_name, post_time, text))
 
