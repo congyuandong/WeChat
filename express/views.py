@@ -86,7 +86,7 @@ def click_handler(request,key):
 
 def message_receiver(request):
 	xml = ElementTree.fromstring(request.body)
-	content = xml.find("Content").text
+	content = xml.find("Content").text.encode('utf-8')
 	return message_handler(request, content)
 
 def message_handler(request,content):
