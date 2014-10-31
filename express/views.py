@@ -19,7 +19,6 @@ REPLAY_TEXT = """<xml>
     <CreateTime>%s</CreateTime>
     <MsgType><![CDATA[text]]></MsgType>
     <Content><![CDATA[%s]]></Content>
-    <FuncFlag>0</FuncFlag>
     </xml>"""
 
 def index(request):
