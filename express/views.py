@@ -129,19 +129,15 @@ def text_response(to_user_name, from_user_name, text):
 	return HttpResponse(REPLAY_TEXT % (to_user_name, from_user_name, post_time, text))
 
 #返回订单URL
-def code_handler(request,code):
-	xml = ElementTree.fromstring(request.body)
-	toUserName = xml.find("ToUserName").text
-	fromUserName = xml.find("FromUserName").text
-	#url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'shunfeng','nu':code})
-	#url = url.content
-	title = "订单号："+code
-	getTrack(code)
-	url = 'http://wechat.congyuandong.cn'
-	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc="点击查看最新物流信息",url=url)
+#def code_handler(request,code):
+#	getTrack(request,code)
 
 #将订单数据存入数据库
-def getTrack(code):
+def code_handler(request,code):
+	data = ElementTree.fromstring(request.body)
+	toUserName = data.find("ToUserName").text
+	fromUserName = data.find("FromUserName").text
+
 	url = 'http://222.66.109.133/track.aspx'
 	params = {'billcode':code}
 	response = requests.get(url, params=params)
@@ -163,13 +159,16 @@ def getTrack(code):
 			Track_new = Track(billcode=code,scantype=scantype,memo=memo,time=time)
 			Track_new.save()
 	else:
-		print 'None'
+		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text='暂无您的订单数据')
+
+	title = "订单号："+code
+	url = 'http://wechat.congyuandong.cn'
+	desc = "点击查看最新物流信息"
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc,url=url)
 
 def url_response(from_user_name, to_user_name,title,desc,url):
 	post_time = str(int(time.time()))
-	#picUrl = 'http://www.baidu.com/img/bdlogo.png'
 	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,url))
-
 
 def checkSignature(request):
 	signature=request.GET.get('signature',None)
