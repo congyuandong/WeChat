@@ -31,7 +31,6 @@ MESSAGE_TEXT_PICTURE = """<xml>
     <item>
     <Title><![CDATA[%s]]></Title>
     <Description><![CDATA[%s]]></Description>
-    <PicUrl><![CDATA[%s]]></PicUrl>
     <Url><![CDATA[%s]]></Url>
     </item>
     </Articles>
@@ -134,15 +133,42 @@ def code_handler(request,code):
 	xml = ElementTree.fromstring(request.body)
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
-	url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'shunfeng','nu':code})
-	url = url.content
-	title = "订单号    "+code
+	#url = requests.get('http://www.kuaidi100.com/applyurl', params={'key':'4eadc5f4e1f608eb','com':'shunfeng','nu':code})
+	#url = url.content
+	#title = "订单号："+code
+	getTrack(code)
+	url = 'http://wechat.congyuandong.cn'
 	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc="点击查看最新物流信息",url=url)
+
+#将订单数据存入数据库
+def getTrack(code):
+	url = 'http://222.66.109.133/track.aspx'
+	params = {'billcode':code}
+	r = requests.get(url, params=params)
+	response = r.content.decode('gb2312').encode('utf-8')
+	response = response.replace('gb2312','utf-8')
+
+	xml = ElementTree.fromstring(response)
+	details = xml.getiterator("detail")
+
+	if len(details) > 0:
+		TrackAdmin_objs = TrackAdmin.objects.filter(billcode__exact = code)
+		if TrackAdmin_objs:
+			for TrackAdmin_obj in TrackAdmin_objs:
+				TrackAdmin_obj.delete()
+		for detail in details:
+			time = datetime.strptime(detail.find('time').text, "%Y/%m/%d %H:%M:%S")  
+			scantype = detail.find('scantype').text
+			memo = detail.find('memo').text
+			TrackAdmin_new = TrackAdmin(billcode=code,scantype=scantype,memo=memo,time=time)
+			TrackAdmin.save()
+	else:
+		print 'None'
 
 def url_response(from_user_name, to_user_name,title,desc,url):
 	post_time = str(int(time.time()))
-	picUrl = 'http://www.baidu.com/img/bdlogo.png'
-	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,picUrl,url))
+	#picUrl = 'http://www.baidu.com/img/bdlogo.png'
+	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,url))
 
 
 def checkSignature(request):

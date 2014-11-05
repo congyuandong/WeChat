@@ -16,3 +16,16 @@ class WeChatBase(models.Model):
 	class Meta:
 		verbose_name = '凭证'
 		verbose_name_plural = '凭证管理'
+
+class Track(models.Model):
+	billcode = models.CharField(max_length=50,verbose_name='订单编号')
+	time = models.DateTimeField(verbose_name='时间')
+	scantype = models.CharField(max_length=20,verbose_name='类型')
+	memo = models.CharField(max_length=200,verbose_name='详细信息')
+
+	def __unicode__(self):
+		return self.billcode
+
+	class Meta:
+		verbose_name = '物流信息'
+		verbose_name_plural = '物流信息'
