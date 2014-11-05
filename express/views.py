@@ -144,7 +144,7 @@ def code_handler(request,code):
 def getTrack(code):
 	url = 'http://222.66.109.133/track.aspx'
 	params = {'billcode':code}
-	r = requests.get(url, params=params)
+	response = requests.get(url, params=params)
 	response = r.content.decode('gb2312').encode('utf-8')
 	response = response.replace('gb2312','utf-8')
 
