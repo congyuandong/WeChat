@@ -36,6 +36,13 @@ MESSAGE_TEXT_PICTURE = """<xml>
     </Articles>
     </xml>"""
 
+def detail(request,id):
+	context = RequestContext(request)
+	context_dict = {}
+	Track_objs = Track.objects.filter(billcode__exact = id).order_by('-time')
+	context_dict['Track_objs'] = Track_objs
+	return render_to_response('express/detail.html',context_dict,context)
+
 def index(request):
 	context = RequestContext(request)
 	context_dict = {}
@@ -159,11 +166,16 @@ def code_handler(request,code):
 			Track_new = Track(billcode=code,scantype=scantype,memo=memo,time=time)
 			Track_new.save()
 	else:
-		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text='暂无您的订单数据')
+		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text='暂无您的物流信息')
 
 	title = "订单号："+code
-	url = 'http://wechat.congyuandong.cn'
-	desc = "点击查看最新物流信息"
+	url = 'http://wechat.congyuandong.cn/e/detail'+code
+	Track_objs = Track.objects.filter(billcode__exact = id).order_by('-time')
+	desc = "最新物流信息:\n"
+	desc += Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S")
+	desc += '\n'
+	desc += Track_objs[0].memo
+	desc += '\n点击查看详情'
 	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc,url=url)
 
 def url_response(from_user_name, to_user_name,title,desc,url):

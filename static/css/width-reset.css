@@ -1,0 +1,93 @@
+.box-shadow{padding:10px;width:300px;}
+#pp-list-info li .content{width:320px;}
+.box-shadow{padding:10px 0;}
+.wx-binding p{font-size:14px;}
+body,.input-box,.textarea-box,.input-box .point,.textarea-box .point,#center .page-title,.btn{font-size:16px;}
+.input-box .point,.textarea-box .point,.icon-bg.search{font-size:14px;top:8px; left:12px;}
+.textarea-box .point{top:3px;}
+.input-box input,.textarea-box textarea{font-size:14px;top:8px; left:10px;}
+.box-shadow p{font-size:12px;}
+.input-box.w330{width:227px;}
+.input-box{height:46px; line-height:46px;text-indent:10px;}
+.textarea-box{width:300px;height:140px;text-indent:10px;}
+.textarea-box textarea{width:280px;height:105px;}
+.textarea-box a.d{right:4px;top:100px;}
+.icon-bg{width:50px;}
+.box-shadow .icon-bg{margin-left:10px;}
+.icon-bg.fkd{background-position: -1px -30px;}
+#login_form .input-box input{ left:90px;}
+#login_form .point{left:91px;}
+#SendYzm{width:90px;font-size:12px;height:48px;line-height:48px;}
+.yanzm.w300{width:209px}
+/*手机站320宽度重置*/
+.dh-info-list li.no_settled_tip h5{ font-size:18px;}
+.point, #center .page-title, .btn{ font-size:16px;}
+body,.input-box, .textarea-box, .input-box .point, .textarea-box .point,#sx_result_list li p,.histogram li,#sx_result_detail h3,.app_dir p,.dh-info-list li,#userInfo p{ font-size:14px;}
+#user_info_swap li a p em{font-size: 12px;}
+#nav li,.fkd_dir p,.a_btn,#wd_result_list li .wd-info p,#wd_result_list li p,#center .page-title, #wd_result_list li .wd-info p.wd-name, #wd_result_list li h3{font-size:14px;}
+.btn.big-btn{height: 50px;width: 70px; font-size:18px;}
+#matchRet li{ height:50px; line-height:50px;}
+#matchRet li a{ width:300px; font-size:14px;}
+#nav li a,#sx_result_list li p.com_title{font-size:14px;}
+.box_shadow{width:280px;padding:10px; margin-top:15px; font-size:14px;}
+.box_shadow .a_btn{width:80px;height:30px; line-height:30px; margin-top:5px;}
+.box_shadow img{width:40px;}
+#addr_enter .input-box.w450 input{width:180px;}
+#addr_enter .input-box.sel_IMGbg input{left:90px;}
+.input-box.sel_IMGbg{ background-position:278px -368px;}
+.input-box.sel_IMGbg .point{left:92px;}
+.input-box a.d, .textarea-box a.d{height: 46px; background-position:-60px 15px;}
+#addr_sel_mbox a{width:100%; font-size:14px; line-height:50px; height:50px;}
+#pp-list-info li,#pp-list-info li .content, #search_result li,#search_result li .content{ height:70px; line-height:70px;}
+#pp-list-info li.pp-header,#pp-list-info li.pp-header .content{height:55px; line-height:55px;}
+#pp-list-info li img,#search_result li img{ width:55px; height:55px;}
+#pp-list-info li .com-name,#pp-list-info li .com-name-tel, #search_result li .com-name,#search_result li .com-name-tel{ height:auto; font-size:14px;}
+#wd_result_list li .wd-info{width:245px;}
+.action_btn .a_btn{ width:130px; height:45px; line-height:45px;}
+#pp-list-info li.pp-header .content{width:300px; padding:0 10px;}
+#pp-list-info li.sel_this .content{ background-position:210px -533px;}
+#sx_search_result .addr-bg{width:110px; font-size:12px;}
+#sx_result_list li p .jg{width:180px;}
+#sx_result_list li p .date{width:60px;}
+.mob_rw.top{height:auto;}
+#center .mob_rw.top h3.page-title{ line-height:26px; padding:10px 0;}
+.histogram li .title{width:60px; margin-right:10px;}
+.histogram li .data{width:180px;}
+.histogram li .sign{width:40px;}
+#pp-list-info li .com-name-tel{padding:8px 0;}
+.form-list label .mm{letter-spacing:27px;}
+.form-list label .name{letter-spacing: 7px;}
+.form-list .input-box input{left:90px;}
+.form-list .point{left:91px;}
+.form-list .textarea-box textarea{ height:65px;}
+.form-list .textarea-box .point {left:11px;top:40px;}
+.wd-contact-info{padding:10px;}
+.wd-contact-box p{ line-height:26px;}
+#center #useful_addr a.content{width:260px;}
+#useful_addr li a, #user_info_swap li a{ background-position:298px -366px;}
+#kindBtn a{padding:10px 28px;font-size:14px;}
+#kindBtn.pd a {font-size: 12px;padding: 10px 2px;}
+#kindBtn{height:40px; line-height:40px;}
+#history_list li,#swap_info_list li .date{font-size:12px;}
+#history_list li .remark, #history_list li .time{font-size:12px;}
+#history_list li span.kd-info{width:160px;}
+#history_list li img{width:50px;}
+#history_list li span.status-info{width:70px;}
+#swap_info_list li p{width:210px;font-size:12px; line-height:20px;}
+#swap_info_list li .u{margin-left:50px;}
+#swap_info_list li p span{ font-size:12px;}
+#info_sent .btn{height:46px;line-height:46px;width:70px; font-size:14px;}
+#fj_info_list li h6{font-size:16px;line-height:30px;}
+#fj_info_list li h6.fl-left{width:180px;}
+#fj_info_list li .btn-box{width:118px;height:30px;}
+#fj_info_list li .btn-box .btn{font-size:12px;margin-left:5px;}
+.btn.small-btn{height:30px;line-height:30px;width:auto;padding:0 5px;}
+#fj_info_list li p{font-size:12px; line-height:20px; margin-bottom:10px;}
+#dh_back_input .input-box{width:229px;}
+#dh_back_input .input-box input{ width:209px;}
+#dh_back_input .btn{width:70px;height:48px; line-height:46px;}
+#center #swap_info_list.content{padding:20px 10px 0 10px;}
+.info-erro h4{font-size:18px; line-height: 20px;}
+.info-erro p{font-size: 14px;line-height:26px;margin-left: 19px; padding-left: 71px;text-indent: -71px;}
+.info-erro hr{width: 280px;}
+

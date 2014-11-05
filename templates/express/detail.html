@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+	{% load staticfiles %}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" name="viewport">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/min-base.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/width-reset.css'%}">
+<body>
+	<div id='center' style='min-height:260px'>
+		<div class='mob_rw'>
+			<div id="cxResult">
+				<ul id="circleInfoList">
+					{% for Track_obj in Track_objs %}
+					<li class="content ">
+						<p>{{Track_obj.memo}}</p>
+						<p class="date_tip">{{Track_obj.time | date:"Y-m-d H:i:s"}}</p>
+
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+      /*-----内容果断调整最小高度----*/
+       var screen_H = document.documentElement.clientHeight; //屏幕分辨率的高度
+	   var h = screen_H - 200;
+	   document.getElementById('center').style.minHeight=h+'px';
+	</script>
+</body>
+</html>
