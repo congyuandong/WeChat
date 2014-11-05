@@ -145,23 +145,23 @@ def getTrack(code):
 	url = 'http://222.66.109.133/track.aspx'
 	params = {'billcode':code}
 	response = requests.get(url, params=params)
-	response = r.content.decode('gb2312').encode('utf-8')
+	response = response.content.decode('gb2312').encode('utf-8')
 	response = response.replace('gb2312','utf-8')
 
 	xml = ElementTree.fromstring(response)
 	details = xml.getiterator("detail")
 
 	if len(details) > 0:
-		TrackAdmin_objs = TrackAdmin.objects.filter(billcode__exact = code)
-		if TrackAdmin_objs:
-			for TrackAdmin_obj in TrackAdmin_objs:
-				TrackAdmin_obj.delete()
+		Track_objs = Track.objects.filter(billcode__exact = code)
+		if Track_objs:
+			for Track_obj in Track_objs:
+				Track_obj.delete()
 		for detail in details:
 			time = datetime.strptime(detail.find('time').text, "%Y/%m/%d %H:%M:%S")  
 			scantype = detail.find('scantype').text
 			memo = detail.find('memo').text
-			TrackAdmin_new = TrackAdmin(billcode=code,scantype=scantype,memo=memo,time=time)
-			TrackAdmin.save()
+			Track_new = Track(billcode=code,scantype=scantype,memo=memo,time=time)
+			Track_new.save()
 	else:
 		print 'None'
 
