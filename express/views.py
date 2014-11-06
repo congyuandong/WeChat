@@ -166,7 +166,7 @@ def code_handler(request,code):
 			Track_new = Track(billcode=code,scantype=scantype,memo=memo,time=time)
 			Track_new.save()
 	else:
-		text = "尚未识别您的运单信息，请点<a href='http:\/\/m.kuaidi100.com\/360\/huangye'>击此处手<\/a>>动查询"
+		text = "尚未识别您的运单信息，请<a href='http://m.kuaidi100.com/360/huangye'>点击此处</a>手动查询"
 		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=text)
 
 	title = "订单号："+code
