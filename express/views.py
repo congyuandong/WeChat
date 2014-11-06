@@ -170,7 +170,7 @@ def code_handler(request,code):
 		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=text)
 
 	title = "订单号："+code
-	url = 'http://wechat.congyuandong.cn/e/detail'+code
+	url = 'http://wechat.congyuandong.cn/e/detail/'+code
 	Track_objs = Track.objects.filter(billcode__exact = code).order_by('-time')
 	desc = "最新物流信息:\n%s\n%s\n点击查看详情"
 	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),url=url)
