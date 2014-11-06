@@ -166,17 +166,14 @@ def code_handler(request,code):
 			Track_new = Track(billcode=code,scantype=scantype,memo=memo,time=time)
 			Track_new.save()
 	else:
-		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text='暂无您的物流信息')
+		text = "尚未识别您的运单信息，请点<a href='http://m.kuaidi100.com/360/huangye'>击此处手</a>>动查询"
+		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=text)
 
 	title = "订单号："+code
 	url = 'http://wechat.congyuandong.cn/e/detail'+code
-	Track_objs = Track.objects.filter(billcode__exact = id).order_by('-time')
-	desc = "最新物流信息:\n"
-	desc += Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S")
-	desc += '\n'
-	desc += Track_objs[0].memo
-	desc += '\n点击查看详情'
-	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc,url=url)
+	Track_objs = Track.objects.filter(billcode__exact = code).order_by('-time')
+	desc = "最新物流信息:\n%s\n%s\n点击查看详情"
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),url=url)
 
 def url_response(from_user_name, to_user_name,title,desc,url):
 	post_time = str(int(time.time()))
