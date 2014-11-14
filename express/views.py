@@ -115,6 +115,8 @@ def scan_handler(request,key):
 	fromUserName = xml.find("FromUserName").text
 	scanResult = xml.find("ScanCodeInfo").find("ScanResult").text
 	#return text_response(from_user_name=toUserName, to_user_name=fromUserName, text=scanResult)
+	if scanResult.find(',')!=-1:
+		scanResult = scanResult.split(',')[1]
 	return code_handler(request,scanResult)
 
 #输入快递单号
