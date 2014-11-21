@@ -31,6 +31,7 @@ MESSAGE_TEXT_PICTURE = """<xml>
     <item>
     <Title><![CDATA[%s]]></Title>
     <Description><![CDATA[%s]]></Description>
+    <PicUrl><![CDATA[%s]]></PicUrl>
     <Url><![CDATA[%s]]></Url>
     </item>
     </Articles>
@@ -109,7 +110,8 @@ def subscribe_handler(request):
 	xml = ElementTree.fromstring(request.body)
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
-	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=u'感谢您的关注',desc=u'Hi ,我们是大北京广受欢迎的帐号(在很快的将来)。会帮你查快递、发现美食、玩转潮流，助你畅享北京快捷、品质生活。',url="http://t.cn/RzArfyr")
+	picurl = 'https://mmbiz.qlogo.cn/mmbiz/B7oIwGAqmFmSFxg3y4YoucteRT4CibibSfIgdwZNc3E60iaFzsuGBjEdTKicU5WpZgIqJdqLsUghwicGvSyQhYEHia8A/0'
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=u'感谢您的关注',desc=u'Hi ,我们是大北京广受欢迎的帐号(在很快的将来)。会帮你查快递、发现美食、玩转潮流，助你畅享北京快捷、品质生活。',picurl=picurl,url="http://mp.weixin.qq.com/s?__biz=MzA4OTA0ODI3Mg==&mid=201421980&idx=1&sn=20e5028ff67fb25616986ca56e484145#rd")
 
 def click_handler(request,key):
 	xml = ElementTree.fromstring(request.body)
@@ -187,11 +189,11 @@ def code_handler(request,code):
 	url = 'http://wechat.congyuandong.cn/e/detail/'+code
 	Track_objs = Track.objects.filter(billcode__exact = code).order_by('-time')
 	desc = "最新物流信息:\n%s\n%s\n点击查看详情"
-	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),url=url)
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),picurl='',url=url)
 
-def url_response(from_user_name, to_user_name,title,desc,url):
+def url_response(from_user_name, to_user_name,title,desc,picurl,url):
 	post_time = str(int(time.time()))
-	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,url))
+	return HttpResponse(MESSAGE_TEXT_PICTURE % (to_user_name, from_user_name,post_time,title,desc,picurl,url))
 
 def checkSignature(request):
 	signature=request.GET.get('signature',None)
