@@ -189,7 +189,7 @@ def code_handler(request,code):
 	url = 'http://wechat.congyuandong.cn/e/detail/'+code
 	Track_objs = Track.objects.filter(billcode__exact = code).order_by('-time')
 	desc = "最新物流信息:\n%s\n%s\n点击查看详情"
-	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),picurl='',url=url)
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=title,desc=desc % (Track_objs[0].time.strftime("%Y-%m-%d %H:%M:%S"),Track_objs[0].memo.encode('utf-8')),picurl='https://mmbiz.qlogo.cn/mmbiz/B7oIwGAqmFmSFxg3y4YoucteRT4CibibSfIgdwZNc3E60iaFzsuGBjEdTKicU5WpZgIqJdqLsUghwicGvSyQhYEHia8A/0',url=url)
 
 def url_response(from_user_name, to_user_name,title,desc,picurl,url):
 	post_time = str(int(time.time()))
