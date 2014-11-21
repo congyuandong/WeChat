@@ -101,13 +101,25 @@ def event_receiver(request):
 	elif event == "scancode_waitmsg":
 		key = xml.find("EventKey").text
 		return scan_handler(request,key)
+	elif event == "subscribe":
+		return subscribe_handler(request)
+
+#处理关注信息
+def subscribe_handler(request):
+	xml = ElementTree.fromstring(request.body)
+	toUserName = xml.find("ToUserName").text
+	fromUserName = xml.find("FromUserName").text
+	return url_response(from_user_name=toUserName, to_user_name=fromUserName,title=u'感谢您的关注',desc=u'Hi ,我们是大北京广受欢迎的帐号(在很快的将来)。会帮你查快递、发现美食、玩转潮流，助你畅享北京快捷、品质生活。',url="http://t.cn/RzArfyr")
 
 def click_handler(request,key):
 	xml = ElementTree.fromstring(request.body)
 	toUserName = xml.find("ToUserName").text
 	fromUserName = xml.find("FromUserName").text
-	return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="请点击键盘图标;\n直接输入单号即可!")
-
+	if key == 'code':
+		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="请点击键盘图标;\n直接输入单号即可!")
+	elif key == 'fuli':
+		return text_response(from_user_name=toUserName, to_user_name=fromUserName, text="粉丝们的专属福利正在筹备中，敬请期待~么么哒")
+		
 #扫码事件
 def scan_handler(request,key):
 	xml = ElementTree.fromstring(request.body)

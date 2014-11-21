@@ -34,7 +34,7 @@ def setMenu():
 	data = '''{"button":[
 				{"type": "scancode_waitmsg","name":"扫码查询","key":"scan"},
 				{"type": "click","name":"单号查询","key":"code"},
-				{"type": "view","name":"关于我们","url":"http://www.congyuandong.cn"}
+				{"type": "click","name":"粉丝福利","key":"fuli"}
 					]
 			}'''
 	response = requests.post('https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+getAccessToken(),data=data)
@@ -45,6 +45,6 @@ def testExpress():
 	print url.content
 
 if __name__ == '__main__':
-	#setMenu()
-	testExpress()
+	setMenu()
+	#testExpress()
 
